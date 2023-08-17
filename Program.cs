@@ -1,16 +1,15 @@
-﻿Console.WriteLine($"Вводим числа от 0 до {uint.MaxValue}");
-uint LevelsCount = ReadVariable("Колличество этажей");
-uint EntryCount = ReadVariable("Колличество подъездов");
+﻿uint LevelsCount = ReadVariable($"Колличество этажей от 0 до {uint.MaxValue / 4}", uint.MaxValue / 4);
+uint EntryCount = ReadVariable($"Колличество подъездов от 0 до {uint.MaxValue / 4 / LevelsCount}", uint.MaxValue / 4 / LevelsCount);
 
-uint RoomMax = LevelsCount * EntryCount * 4;
+ulong RoomMax = (ulong)LevelsCount * (ulong)EntryCount * 4;
 
 Console.WriteLine($"Всего возможно {RoomMax} квартиры");
 
-uint RoomNumber = ReadVariable("Номер квартиры");
+uint RoomNumber = ReadVariable("Номер квартиры", uint.MaxValue);
 
 calculate(LevelsCount, RoomMax, RoomNumber);
 
-static void calculate(uint levelscount, uint roommax, uint roomnumber)
+static void calculate(uint levelscount, ulong roommax, uint roomnumber)
 {
     string[] somelevel = new string[]
     {
@@ -38,11 +37,11 @@ static void calculate(uint levelscount, uint roommax, uint roomnumber)
 }
 
 
-uint ReadVariable(string variablename)
+uint ReadVariable(string variablename, uint max)
 {
     Console.WriteLine($"Введите \"{variablename.ToLower()}\":");
     bool result = uint.TryParse(Console.ReadLine(), out uint value);
-    if (result == false)
+    if (result == false || value > max)
     {
         throw new Exception($"Ошибка при вводе переменной \"{variablename}\"");
     }
